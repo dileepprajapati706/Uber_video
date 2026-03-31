@@ -149,6 +149,56 @@ Example response:
 }
 ```
 
+### Cookie behavior
+- On successful login, the server also sets a cookie named `token` containing the JWT.
+- This cookie can be used for authenticated requests instead of the `Authorization` header.
+
+## `GET /users/logout`
+
+Logout the authenticated user and blacklist the current token.
+
+### Description
+Clears the `token` cookie and stores the JWT in the blacklist collection so it cannot be reused.
+
+### Request
+- URL: `/users/logout`
+- Method: `GET`
+- Headers:
+  - `Authorization: Bearer <jwt-token>`
+  - or cookie: `token=<jwt-token>`
+
+### Responses
+
+#### `200 OK`
+Logout successful.
+
+Example response:
+```json
+{
+  "message": "Logout successfully"
+}
+```
+
+#### `401 Unauthorized`
+Missing or invalid authentication token.
+
+Example response:
+```json
+{
+  "message": "Unauthorizes"
+}
+```
+
+#### `401 Unauthorized`
+Token is blacklisted or invalid.
+
+Example response:
+```json
+{
+  "message": "Unauthorizes user"
+}
+```
+
 ## `GET /users/profile`
 
 Retrieve the authenticated user's profile.
